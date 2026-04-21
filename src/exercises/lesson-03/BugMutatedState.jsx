@@ -13,8 +13,7 @@ export default function BugMutatedState() {
   let [count, setCount] = useState(0);
 
   function handleAdd() {
-    count++;
-    setCount(count);
+    setCount(count + 1);
   }
 
   return (
@@ -26,4 +25,9 @@ export default function BugMutatedState() {
 }
 
 // Explanation:
-// (Write your explanation here)
+/*
+count++ change the state variable directly, which would cause a bug in React as React doesn't detect direct mutation 
+correct way should be function handleAdd() {
+    setCount(count + 1) or  setCount(prev => prev + 1)
+  }
+*/
