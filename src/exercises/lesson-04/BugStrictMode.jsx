@@ -7,9 +7,11 @@ export default function BugStrictMode() {
   const [count, setCount] = useState(0);
 
   useEffect(() => {
-    setInterval(() => {
+    const id = setInterval(() => {
       setCount((c) => c + 1);
     }, 1000);
+
+    return () => clearInterval(id);
   }, []);
 
   return (
@@ -20,4 +22,8 @@ export default function BugStrictMode() {
   );
 }
 
-// Write your explanation of how StrictMode helps us catch this bug
+/*  React StrictMode runs effect twice, leading two intervals being created
+First render → effect runs → interval #1 starts
+StrictMode simulates unmount/mount
+Second render → effect runs again → interval #2 starts
+The first interval was never cleared, so both run every second → +1 +1 = +2. */
